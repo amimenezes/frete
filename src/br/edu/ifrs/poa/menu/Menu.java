@@ -25,7 +25,7 @@ public class Menu {
 	public static void main(String[] args) {
 		String arqLeitura = "ArquivoObjetos.bin";
 		// Inicio da Validação das opções do Menu
-		try {			
+		try {
 			FreteConjunto<Frete> conjListaFrete = ManipularArquivos.lerArquivoBinario(arqLeitura);
 			if (conjListaFrete == null) {
 				conjListaFrete = new FreteConjunto<Frete>();
@@ -36,42 +36,49 @@ public class Menu {
 					Cliente cliente = new Cliente();
 					Frete frete = new Frete();
 
+//					boolean aux = false;
+//					while (aux == false) {
+//						String nomeCliente = JOptionPane.showInputDialog("Informe o nome do Cliente:");
+//						if (nomeCliente.trim().isEmpty()) {
+//							JOptionPane.showMessageDialog(null,
+//									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
+//							aux = false;
+//						} else {
+//							cliente.setNome(nomeCliente);
+//							aux = true;
+//						}
+//					}
+
 					boolean aux = false;
 					while (aux == false) {
 						String nomeCliente = JOptionPane.showInputDialog("Informe o nome do Cliente:");
-						if (nomeCliente.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						if (ValidarMenu.validaString(nomeCliente)) {
 							cliente.setNome(nomeCliente);
 							aux = true;
+						} else {
+							aux = false;
 						}
 					}
-										
+
 					aux = false;
 					while (aux == false) {
 						String enderecoCliente = JOptionPane.showInputDialog("Informe o endereco do Cliente:");
-						if (enderecoCliente.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						if (ValidarMenu.validaString(enderecoCliente)) {
 							cliente.setEndereco(enderecoCliente);
 							aux = true;
+						} else {
+							aux = false;
 						}
 					}
 
 					aux = false;
 					while (aux == false) {
 						String telefoneCliente = JOptionPane.showInputDialog("Informe o telefone do Cliente:");
-						if (telefoneCliente.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						if (ValidarMenu.validaString(telefoneCliente)) {
 							cliente.setTelefone(telefoneCliente);
 							aux = true;
+						} else {
+							aux = false;
 						}
 					}
 
@@ -79,14 +86,12 @@ public class Menu {
 					while (auxCpf == false) {
 						String cpfCliente = JOptionPane.showInputDialog("Informe o cpf do Cliente:");
 						auxCpf = cliente.validarCPF(cpfCliente);
-						if (cpfCliente.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-						} else if (!auxCpf) {
+						if (ValidarMenu.validaString(cpfCliente)) {
+							cliente.setCpf(cpfCliente);
+							auxCpf = true;
+						} else if(!auxCpf) {
 							JOptionPane.showMessageDialog(null, "CPF inválido!");
 							auxCpf = false;
-						} else {
-							cliente.setCpf(cpfCliente);
 						}
 					}
 
@@ -107,28 +112,24 @@ public class Menu {
 
 					aux = false;
 					while (aux == false) {
-						String origemFrete = JOptionPane.showInputDialog("Informe a Origem do Frete:");
-						if (origemFrete.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						String origemFrete = JOptionPane.showInputDialog("Informe a Origem do Frete:");						
+						if (ValidarMenu.validaString(origemFrete)) {
 							frete.setCidadeOrigem(origemFrete);
 							aux = true;
+						} else {
+							aux = false;
 						}
 					}
 
 					aux = false;
 					while (aux == false) {
 						String destinoFrete = JOptionPane.showInputDialog("Informe o Destino do Frete:");
-						if (destinoFrete.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						if (ValidarMenu.validaString(destinoFrete)) {
 							frete.setCidadeDestino(destinoFrete);
 							aux = true;
-						}
+						} else {
+							aux = false;
+						}						
 					}
 
 					// Pega a Situacao do Frete
@@ -168,14 +169,12 @@ public class Menu {
 					aux = false;
 					while (aux == false) {
 						String descricao = JOptionPane.showInputDialog("Informe a descrição do Frete:");
-						if (descricao.trim().isEmpty()) {
-							JOptionPane.showMessageDialog(null,
-									"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
-							aux = false;
-						} else {
+						if (ValidarMenu.validaString(descricao)) {
 							itemFrete.setDescricao(descricao);
 							aux = true;
-						}
+						} else {
+							aux = false;
+						}						
 					}
 
 					// Validando o atributo Peso
@@ -183,12 +182,10 @@ public class Menu {
 					while (aux == false) {
 						try {
 							String inputPeso = JOptionPane.showInputDialog("Informe o peso do Frete:");
-							if (inputPeso.trim().isEmpty()) {
-								JOptionPane.showMessageDialog(null,
-										"Você não digitou nenhuma informação.\nDigite algo para cadastrar.");
+							/*if (inputPeso.trim().isEmpty()) {*/
+							if (!ValidarMenu.validaString(inputPeso)) {								
 								aux = false;
 							} else if (!itemFrete.validaPeso(Double.parseDouble(inputPeso))) {
-								JOptionPane.showMessageDialog(null, "Peso inválido!");
 								aux = false;
 							} else {
 								itemFrete.setPeso(Double.parseDouble(inputPeso));
@@ -293,7 +290,7 @@ public class Menu {
 		}
 	}
 
-	// Métodos específicos	
+	// Métodos específicos
 	private static int montaMenu() {
 		String str = "";
 		for (EnumOption op : EnumOption.values())
